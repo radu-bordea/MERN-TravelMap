@@ -13,3 +13,6 @@
 - cd ..
 - cd frontend
 - npx create-react-app .
+- npm install react-map-gl@^6.1.12 mapbox-gl@^2.9.1
+
+

@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "cra-template": "1.2.0",
+    "mapbox-gl": "^2.9.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-map-gl": "^6.1.12",
     "react-scripts": "5.0.1"
   },
   "scripts": {
