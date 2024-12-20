@@ -14,5 +14,8 @@
 - cd frontend
 - npx create-react-app .
 - npm install react-map-gl@^6.1.12 mapbox-gl@^2.9.1
-
+- npm install @mui/material @emotion/react @emotion/styled
+- npm install @mui/icons-material
+- npm install axios
+- npm install timeago.js
 
