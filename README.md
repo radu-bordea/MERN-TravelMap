@@ -19,3 +19,14 @@
 - npm install axios
 - npm install timeago.js
 
+// technologies & features
+- MongoDB,
+- Express
+- NodeJs
+- React
+- LocalStorage
+- MaterialUI Icons
+- axios
+- mapbox (react-map-gl)
+- 
+
