@@ -91,7 +91,7 @@ textarea {
   outline: none;
 }
 
-.logout{
+.logout, .delete{
   background-color: tomato;
 }
 

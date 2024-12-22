@@ -16,12 +16,6 @@
   justify-content: space-between;
 }
 
-.registerCancel {
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  cursor: pointer;
-}
 
 .logo {
   display: flex;
@@ -49,4 +43,11 @@
   font-size: 12px;
   color: red;
   text-align: center;
+}
+
+.registerCancel {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  cursor: pointer;
 }

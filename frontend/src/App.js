@@ -1,13 +1,15 @@
-import "./app.css";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Room, Star, StarBorder } from "@material-ui/icons";
 import axios from "axios";
 import { format } from "timeago.js";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import "./app.css";
 
 function App() {
   const myStorage = window.localStorage; // Local storage for persisting data
-  const currentUser = "Florencia"; // Simulated logged-in user
+  const [currentUser, setCurrentUser] = useState(null);
 
   // State variables for managing pins, viewport, and form inputs
   const [pins, setPins] = useState([]); // Array of map pins
@@ -39,16 +41,21 @@ function App() {
     });
   };
 
-  const handleDeleteClick = async (id) => {
-    try {
-      const response = await axios.delete(`/pins/${id}`);
-      console.log(response.data.message); // show success message
-      alert("Pin deleted successfully!");
-    } catch (err) {
-      console.error("Error:", err.response?.data || err.message);
-      alert("Failed to delete the pin.");
-    }
-  };
+  const handleDeleteClick = useCallback(
+    async (id) => {
+      try {
+        const response = await axios.delete(`/pins/${id}`);
+        console.log(response.data.message); // Show success message
+        // Update state to remove the deleted pin
+        setPins((prevPins) => prevPins.filter((pin) => pin._id !== id));
+        // alert("Pin deleted successfully!");
+      } catch (err) {
+        console.error("Error:", err.response?.data || err.message);
+        alert("Failed to delete the pin.");
+      }
+    },
+    [setPins] // Dependency array
+  );
 
   // Submits a new pin to the backend
   const handleSubmit = async (e) => {
@@ -71,7 +78,6 @@ function App() {
     }
   };
 
-  // Fetches pins from the backend on component mount
   useEffect(() => {
     const getPins = async () => {
       try {
@@ -82,7 +88,7 @@ function App() {
       }
     };
     getPins();
-  }, [handleDeleteClick]);
+  }, [handleDeleteClick]); // Include handleDeleteClick
 
   return (
     <div style={{ height: "100vh", width: "100%" }}>
@@ -141,8 +147,11 @@ function App() {
                     Created by <b>{p.username}</b>
                   </span>
                   <span className="date">{format(p.createdAt)}</span>
-                  <button className="button" onClick={() => handleDeleteClick(p._id)}>
-                    DELETE
+                  <button
+                    className="button delete"
+                    onClick={() => handleDeleteClick(p._id)}
+                  >
+                    Delete Pin
                   </button>
                 </div>
               </Popup>
@@ -192,8 +201,6 @@ function App() {
                   />
                   <label>Rating</label>
                   <select onChange={(e) => setStar(e.target.value)}>
-                    {" "}
-                    // Set rating
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -208,6 +215,23 @@ function App() {
             </Popup>
           </>
         )}
+        {currentUser ? (
+          <button className="button logout">Log out</button>
+        ) : (
+          <div className="buttons">
+            <button className="button login" onClick={() => setShowLogin(true)}>
+              Login
+            </button>
+            <button
+              className="button register"
+              onClick={() => setShowRegister(true)}
+            >
+              register
+            </button>
+          </div>
+        )}
+        {showRegister && <Register setShowRegister={setShowRegister} />}
+        {showLogin && <Login setShowLogin={setShowLogin}/>}
       </ReactMapGL>
     </div>
   );
