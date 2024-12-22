@@ -9,7 +9,7 @@ import "./app.css";
 
 function App() {
   const myStorage = window.localStorage; // Local storage for persisting data
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(myStorage.getItem("user"));
 
   // State variables for managing pins, viewport, and form inputs
   const [pins, setPins] = useState([]); // Array of map pins
@@ -76,6 +76,11 @@ function App() {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleLogout = () => {
+    myStorage.removeItem("user");
+    setCurrentUser(null);
   };
 
   useEffect(() => {
@@ -216,7 +221,9 @@ function App() {
           </>
         )}
         {currentUser ? (
-          <button className="button logout">Log out</button>
+          <button className="button logout" onClick={handleLogout}>
+            Log out
+          </button>
         ) : (
           <div className="buttons">
             <button className="button login" onClick={() => setShowLogin(true)}>
@@ -231,7 +238,13 @@ function App() {
           </div>
         )}
         {showRegister && <Register setShowRegister={setShowRegister} />}
-        {showLogin && <Login setShowLogin={setShowLogin}/>}
+        {showLogin && (
+          <Login
+            setShowLogin={setShowLogin}
+            myStorage={myStorage}
+            setCurrentUser={setCurrentUser}
+          />
+        )}
       </ReactMapGL>
     </div>
   );

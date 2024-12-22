@@ -21,7 +21,6 @@ const Register = ({ setShowRegister }) => {
       await axios.post("users/register", newUser);
       setError(false);
       setSuccess(true);
-      setShowRegister(false)
       alert("register successful!")
     } catch (err) {
       setError(true);
