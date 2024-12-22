@@ -7,8 +7,8 @@ import { format } from "timeago.js";
 
 function App() {
   const myStorage = window.localStorage; // Local storage for persisting data
-  const currentUser = 'Florencia'; // Simulated logged-in user
-  
+  const currentUser = "Florencia"; // Simulated logged-in user
+
   // State variables for managing pins, viewport, and form inputs
   const [pins, setPins] = useState([]); // Array of map pins
   const [currentPlaceId, setCurrentPlaceId] = useState(null); // Current pin ID for viewing details
@@ -37,6 +37,17 @@ function App() {
       lat: latitude,
       long: longitude,
     });
+  };
+
+  const handleDeleteClick = async (id) => {
+    try {
+      const response = await axios.delete(`/pins/${id}`);
+      console.log(response.data.message); // show success message
+      alert("Pin deleted successfully!");
+    } catch (err) {
+      console.error("Error:", err.response?.data || err.message);
+      alert("Failed to delete the pin.");
+    }
   };
 
   // Submits a new pin to the backend
@@ -71,7 +82,7 @@ function App() {
       }
     };
     getPins();
-  }, []);
+  }, [handleDeleteClick]);
 
   return (
     <div style={{ height: "100vh", width: "100%" }}>
@@ -98,8 +109,7 @@ function App() {
               <Room
                 style={{
                   fontSize: 7 * viewport.zoom,
-                  color:
-                    currentUser === p.username ? "tomato" : "slateblue", // Different colors for user's and others' pins
+                  color: currentUser === p.username ? "tomato" : "slateblue", // Different colors for user's and others' pins
                   cursor: "pointer",
                 }}
                 onClick={() => handleMarkerClick(p._id, p.lat, p.long)} // Focus on pin
@@ -131,6 +141,9 @@ function App() {
                     Created by <b>{p.username}</b>
                   </span>
                   <span className="date">{format(p.createdAt)}</span>
+                  <button className="button" onClick={() => handleDeleteClick(p._id)}>
+                    DELETE
+                  </button>
                 </div>
               </Popup>
             )}
@@ -178,7 +191,9 @@ function App() {
                     onChange={(e) => setDesc(e.target.value)} // Set description
                   />
                   <label>Rating</label>
-                  <select onChange={(e) => setStar(e.target.value)}> // Set rating
+                  <select onChange={(e) => setStar(e.target.value)}>
+                    {" "}
+                    // Set rating
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
