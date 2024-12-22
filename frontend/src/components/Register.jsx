@@ -22,6 +22,7 @@ const Register = ({ setShowRegister }) => {
       setError(false);
       setSuccess(true);
       setShowRegister(false)
+      alert("register successful!")
     } catch (err) {
       setError(true);
     }
