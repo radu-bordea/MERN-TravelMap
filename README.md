@@ -28,5 +28,5 @@
 - MaterialUI Icons
 - axios
 - mapbox (react-map-gl)
-- 
+
 

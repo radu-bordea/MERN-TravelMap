@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
-import { Cancel, Room } from "@material-ui/icons";
+import ClearIcon from "@mui/icons-material/Clear";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import "./register.css";
 import axios from "axios";
 
@@ -30,7 +31,7 @@ const Register = ({ setShowRegister }) => {
   return (
     <div className="registerContainer">
       <div className="logo">
-        <Room />
+        <LocationOnIcon />
         Travel Pin
       </div>
       <form onSubmit={handleSubmit}>
@@ -43,7 +44,7 @@ const Register = ({ setShowRegister }) => {
         )}
         {error && <span className="failure">Something went wrong!</span>}
       </form>
-      <Cancel
+      <ClearIcon
         className="registerCancel"
         onClick={() => setShowRegister(false)}
       />

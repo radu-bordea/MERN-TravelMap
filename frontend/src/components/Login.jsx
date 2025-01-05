@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
-import { Cancel, Room } from "@material-ui/icons";
+import ClearIcon from "@mui/icons-material/Clear";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import "./login.css";
 import axios from "axios";
 
@@ -29,7 +30,7 @@ const Login = ({ setShowLogin, myStorage, setCurrentUser }) => {
   return (
     <div className="loginContainer">
       <div className="logo">
-        <Room />
+        <LocationOnIcon />
         Travel Pin
       </div>
       <form onSubmit={handleSubmit}>
@@ -38,8 +39,8 @@ const Login = ({ setShowLogin, myStorage, setCurrentUser }) => {
         <button className="loginBtn">Login</button>
         {error && <span className="failure">Something went wrong!</span>}
       </form>
-      <Cancel
-        className="loginCancel"
+      <ClearIcon
+       className="loginCancel"
         onClick={() => setShowLogin(false)}
       />
     </div>

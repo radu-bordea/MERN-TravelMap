@@ -1,6 +1,7 @@
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import { useEffect, useState, useCallback } from "react";
-import { Room, Star, StarBorder } from "@material-ui/icons";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import GradeIcon from '@mui/icons-material/Grade';
 import axios from "axios";
 import { format } from "timeago.js";
 import Register from "./components/Register";
@@ -19,9 +20,9 @@ function App() {
   const [desc, setDesc] = useState(null); // Description of the new pin
   const [star, setStar] = useState(0); // Star rating of the new pin
   const [viewport, setViewport] = useState({
-    latitude: 47.040182,
+    latitude: 50.040182,
     longitude: 17.071727,
-    zoom: 4,
+    zoom: 3,
   }); // Map viewport settings
   const [showRegister, setShowRegister] = useState(false); // Toggle for registration form
   const [showLogin, setShowLogin] = useState(false); // Toggle for login form
@@ -97,12 +98,32 @@ function App() {
 
   return (
     <div style={{ height: "100vh", width: "100%" }}>
+      <div className="navbar">
+        <h3 className="navbar-title">Travel Map</h3>
+        {currentUser ? (
+          <button className="button logout" onClick={handleLogout}>
+            Log out
+          </button>
+        ) : (
+          <div className="buttons">
+            <button className="button login" onClick={() => setShowLogin(true)}>
+              Login
+            </button>
+            <button
+              className="button register"
+              onClick={() => setShowRegister(true)}
+            >
+              register
+            </button>
+          </div>
+        )}
+      </div>
       {/* Map container */}
       <ReactMapGL
         {...viewport}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX} // Mapbox API token
         width="100%"
-        height="100%"
+        height="93%"
         transitionDuration="200"
         onViewportChange={(viewport) => setViewport(viewport)} // Handle viewport changes
         onDblClick={handleAddClick} // Add a new pin on double-click
@@ -117,7 +138,7 @@ function App() {
               offsetLeft={-3.5 * viewport.zoom}
               offsetTop={-7 * viewport.zoom}
             >
-              <Room
+              <LocationOnIcon
                 style={{
                   fontSize: 7 * viewport.zoom,
                   color: currentUser === p.username ? "tomato" : "slateblue", // Different colors for user's and others' pins
@@ -145,7 +166,7 @@ function App() {
                   <p className="desc">{p.desc}</p>
                   <label>Rating</label>
                   <div className="stars">
-                    {Array(p.rating).fill(<Star className="star" />)}
+                    {Array(p.rating).fill(<GradeIcon className="star" />)}
                   </div>
                   <label>Information</label>
                   <span className="username">
@@ -174,7 +195,7 @@ function App() {
               offsetLeft={-3.5 * viewport.zoom}
               offsetTop={-7 * viewport.zoom}
             >
-              <Room
+              <LocationOnIcon
                 style={{
                   fontSize: 7 * viewport.zoom,
                   color: "tomato",
@@ -219,23 +240,6 @@ function App() {
               </div>
             </Popup>
           </>
-        )}
-        {currentUser ? (
-          <button className="button logout" onClick={handleLogout}>
-            Log out
-          </button>
-        ) : (
-          <div className="buttons">
-            <button className="button login" onClick={() => setShowLogin(true)}>
-              Login
-            </button>
-            <button
-              className="button register"
-              onClick={() => setShowRegister(true)}
-            >
-              register
-            </button>
-          </div>
         )}
         {showRegister && <Register setShowRegister={setShowRegister} />}
         {showLogin && (
